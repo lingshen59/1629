@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Formulario de Postulación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: #fff;
+      padding: 20px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 25px;
+    }
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.25);
+    }
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 6px;
+      border-radius: 4px;
+      border: none;
+      font-size: 1rem;
+    }
+    input::placeholder,
+    textarea::placeholder {
+      color: #ccc;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+    button {
+      margin-top: 20px;
+      width: 100%;
+      padding: 12px;
+      background-color: #4caf50;
+      border: none;
+      border-radius: 5px;
+      font-size: 1.1rem;
+      color: white;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .optional {
+      font-weight: normal;
+      font-style: italic;
+      font-size: 0.9rem;
+      color: #ddd;
+      margin-left: 6px;
+    }
+    .message {
+      margin-top: 15px;
+      font-weight: bold;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Formulario de Postulación</h1>
+  <form id="formPostulacion">
+    <label for="user">Usuario Discord <span class="optional">(obligatorio)</span></label>
+    <input type="text" id="user" name="user" placeholder="Ejemplo: Juan#1234" required />
+
+    <label for="id">ID Discord <span class="optional">(obligatorio)</span></label>
+    <input type="text" id="id" name="id" placeholder="Ejemplo: 123456789012345678" required />
+
+    <label for="pais">País <span class="optional">(obligatorio)</span></label>
+    <input type="text" id="pais" name="pais" placeholder="Tu país" required />
+
+    <label for="edad">Edad <span class="optional">(opcional)</span></label>
+    <input type="number" id="edad" name="edad" placeholder="Tu edad" min="1" max="120" />
+
+    <label for="vecesAdmin">¿Cuántas veces has sido admin? <span class="optional">(opcional)</span></label>
+    <input type="number" id="vecesAdmin" name="vecesAdmin" placeholder="Número de veces" min="0" />
+
+    <label for="aportacion">¿Qué podrías aportar al servidor? <span class="optional">(opcional)</span></label>
+    <textarea id="aportacion" name="aportacion" placeholder="Escribe aquí tu respuesta"></textarea>
+
+    <label for="hacks">¿Qué hacks tienes? <span class="optional">(opcional)</span></label>
+    <textarea id="hacks" name="hacks" placeholder="Lista tus hacks"></textarea>
+
+    <label for="experiencia">Experiencia (1 al 10) <span class="optional">(opcional)</span></label>
+    <input type="number" id="experiencia" name="experiencia" placeholder="1 - 10" min="1" max="10" />
+
+    <label for="horas">Horas disponibles <span class="optional">(opcional)</span></label>
+    <input type="number" id="horas" name="horas" placeholder="Horas al día" min="0" max="24" />
+
+    <label for="zona">Zona horaria <span class="optional">(opcional)</span></label>
+    <input type="text" id="zona" name="zona" placeholder="Ejemplo: GMT-3" />
+
+    <button type="submit">Enviar postulación</button>
+  </form>
+
+  <div class="message" id="message"></div>
+
+  <script>
+    const form = document.getElementById('formPostulacion');
+    const messageDiv = document.getElementById('message');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      messageDiv.textContent = 'Enviando...';
+
+      const formData = {
+        user: form.user.value.trim(),
+        id: form.id.value.trim(),
+        pais: form.pais.value.trim(),
+        edad: form.edad.value.trim(),
+        vecesAdmin: form.vecesAdmin.value.trim(),
+        aportacion: form.aportacion.value.trim(),
+        hacks: form.hacks.value.trim(),
+        experiencia: form.experiencia.value.trim(),
+        horas: form.horas.value.trim(),
+        zona: form.zona.value.trim(),
+      };
+
+      try {
+        const res = await fetch('/.netlify/functions/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData),
+        });
+
+        if (res.ok) {
+          messageDiv.style.color = 'lightgreen';
+          messageDiv.textContent = 'Postulación enviada con éxito. ¡Gracias!';
+          form.reset();
+        } else {
+          const text = await res.text();
+          messageDiv.style.color = 'red';
+          messageDiv.textContent = `Error: ${text}`;
+        }
+      } catch (error) {
+        messageDiv.style.color = 'red';
+        messageDiv.textContent = 'Error al enviar la postulación.';
+      }
+    });
+  </script>
+</body>
+</html>

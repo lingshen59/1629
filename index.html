@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Formulario de Postulación</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #101820;
+      color: #fff;
+      padding: 20px;
+    }
+    form {
+      background-color: #1e2a38;
+      padding: 20px;
+      border-radius: 10px;
+      max-width: 500px;
+      margin: auto;
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: none;
+    }
+    button {
+      background-color: #007acc;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    label span {
+      font-size: 0.9em;
+      color: #ccc;
+    }
+  </style>
+</head>
+<body>
+  <h2>Formulario de Postulación para Admin</h2>
+  <form id="adminForm">
+    <label>Usuario Discord (obligatorio)<input type="text" name="usuario" required></label>
+    <label>ID Discord (opcional)<input type="text" name="id"></label>
+    <label>País (obligatorio)<input type="text" name="pais" required></label>
+    <label>Edad (obligatorio)<input type="number" name="edad" required></label>
+    <label>¿Cuántas veces has sido admin? (obligatorio)<input type="text" name="veces_admin" required></label>
+    <label>¿Qué podrías aportar al servidor? (obligatorio)<textarea name="aportaria" required></textarea></label>
+    <label>¿Qué hacks tienes? (opcional)<textarea name="hacks"></textarea></label>
+    <label>Experiencia (1 al 10) (obligatorio)<input type="number" name="experiencia" required></label>
+    <label>Horas disponibles (obligatorio)<input type="text" name="horas" required></label>
+    <label>Zona horaria<input type="text" name="zona"></label>
+    <button type="submit">Enviar Postulación</button>
+  </form>
+  <script>
+    const form = document.getElementById('adminForm');
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form).entries());
+      try {
+        const res = await fetch('/.netlify/functions/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+        alert(json.message || 'Formulario enviado');
+      } catch (err) {
+        alert('Error al enviar el formulario');
+      }
+    });
+  </script>
+</body>
+</html>

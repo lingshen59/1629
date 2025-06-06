@@ -1,1 +1,85 @@
-(function(_0x35eda7,_0x2a3052){const _0x457f48=_0xd432,_0x270684=_0x35eda7();while(!![]){try{const _0x5462dc=parseInt(_0x457f48(0x1eb))/0x1+parseInt(_0x457f48(0x1da))/0x2*(parseInt(_0x457f48(0x1e8))/0x3)+parseInt(_0x457f48(0x1e6))/0x4+-parseInt(_0x457f48(0x1f1))/0x5+-parseInt(_0x457f48(0x1d6))/0x6*(-parseInt(_0x457f48(0x1e4))/0x7)+parseInt(_0x457f48(0x1d2))/0x8+-parseInt(_0x457f48(0x1df))/0x9*(parseInt(_0x457f48(0x1e0))/0xa);if(_0x5462dc===_0x2a3052)break;else _0x270684['push'](_0x270684['shift']());}catch(_0x2d4231){_0x270684['push'](_0x270684['shift']());}}}(_0x4fd9,0xd17f7));const fetch=require('node-fetch'),WEBHOOK_URL='https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4';function _0xd432(_0x5b5153,_0x2dd7c6){const _0x4fd9b0=_0x4fd9();return _0xd432=function(_0xd43246,_0x1739b5){_0xd43246=_0xd43246-0x1cf;let _0x2949b0=_0x4fd9b0[_0xd43246];return _0x2949b0;},_0xd432(_0x5b5153,_0x2dd7c6);}let blockedIPs=new Set();function isAttack(_0x5bdd14){const _0x190ff6=_0xd432;if(!_0x5bdd14['usuarioDiscord']||!_0x5bdd14[_0x190ff6(0x1d5)]||!_0x5bdd14[_0x190ff6(0x1e2)])return!![];return![];}function _0x4fd9(){const _0x877aa6=['7zHxZmR','horas','2480688PvjHil','idDiscord','103692JLSkfw','body','POST','53559tWUfgy','\x0aQuÃ©\x20aporta:\x20','hacks','has','aporta','httpMethod','1402015tePNgx','Acceso\x20bloqueado','\x0a**Nueva\x20postulaciÃ³n**\x0aUsuario\x20Discord:\x20','headers','usuarioDiscord','Error\x20enviando\x20webhook','11030016bbCaNE','stringify','vecesAdmin','pais','5122758tCbsNZ','x-forwarded-for','No\x20proporcionado','\x0aQuÃ©\x20hacks\x20tiene:\x20','32WHSnPD','\x0aVeces\x20admin:\x20','JSON\x20invÃ¡lido','experiencia','\x0aIP:\x20','165771ScLhYE','1260USPkGX','client-ip','edad','\x0aID\x20Discord:\x20'];_0x4fd9=function(){return _0x877aa6;};return _0x4fd9();}exports['handler']=async function(_0x5d9620,_0x1b45b4){const _0x228246=_0xd432;if(_0x5d9620[_0x228246(0x1f0)]!==_0x228246(0x1ea))return{'statusCode':0x195,'headers':{'Allow':_0x228246(0x1ea)},'body':'MÃ©todo\x20no\x20permitido'};const _0x1d6826=_0x5d9620['headers'][_0x228246(0x1e1)]||_0x5d9620[_0x228246(0x1cf)][_0x228246(0x1d7)]||'desconocida';if(blockedIPs[_0x228246(0x1ee)](_0x1d6826))return{'statusCode':0x193,'body':_0x228246(0x1f2)};let _0x1e511d;try{_0x1e511d=JSON['parse'](_0x5d9620[_0x228246(0x1e9)]);}catch{return{'statusCode':0x190,'body':_0x228246(0x1dc)};}if(isAttack(_0x1e511d))return blockedIPs['add'](_0x1d6826),{'statusCode':0x193,'body':'Acceso\x20bloqueado\x20por\x20actividad\x20sospechosa'};const _0x168bb5=_0x228246(0x1f3)+_0x1e511d[_0x228246(0x1d0)]+_0x228246(0x1e3)+(_0x1e511d[_0x228246(0x1e7)]||_0x228246(0x1d8))+'\x0aPaÃ­s:\x20'+_0x1e511d[_0x228246(0x1d5)]+'\x0aEdad:\x20'+_0x1e511d[_0x228246(0x1e2)]+_0x228246(0x1db)+_0x1e511d[_0x228246(0x1d4)]+_0x228246(0x1ec)+_0x1e511d[_0x228246(0x1ef)]+_0x228246(0x1d9)+(_0x1e511d[_0x228246(0x1ed)]||_0x228246(0x1d8))+'\x0aExperiencia:\x20'+_0x1e511d[_0x228246(0x1dd)]+'\x0aHoras\x20disponibles:\x20'+_0x1e511d[_0x228246(0x1e5)]+_0x228246(0x1de)+_0x1d6826+'\x0a';try{return await fetch(WEBHOOK_URL,{'method':'POST','headers':{'Content-Type':'application/json'},'body':JSON[_0x228246(0x1d3)]({'content':_0x168bb5})}),{'statusCode':0xc8,'body':'Formulario\x20enviado\x20correctamente'};}catch(_0x1d8542){return{'statusCode':0x1f4,'body':_0x228246(0x1d1)};}};
+ const fetch = require('node-fetch');
+
+const WEBHOOK_URL = 'https://discord.com/api/webhooks/1380390969371004969/vV1CojqZppGytUNMjkybAMYI4lwBPV13aUUYk7r-bgIVFmvprs_fjfH1f2u-_6cJkdQ4';
+
+// Aquí puedes tener una lista en memoria o cargar de algún lugar las IPs bloqueadas
+let blockedIPs = new Set();
+
+// Función para detectar ataques simples (puedes mejorar esta lógica)
+function isAttack(data) {
+  // Ejemplo básico: campos vacíos obligatorios
+  if (!data.usuarioDiscord || !data.pais || !data.edad) return true;
+  // Puedes añadir más reglas para ataques
+  return false;
+}
+
+exports.handler = async function(event, context) {
+  if (event.httpMethod !== 'POST') {
+    return {
+      statusCode: 405,
+      headers: { 'Allow': 'POST' },
+      body: 'Método no permitido',
+    };
+  }
+
+  const ip = event.headers['client-ip'] || event.headers['x-forwarded-for'] || 'desconocida';
+
+  if (blockedIPs.has(ip)) {
+    return {
+      statusCode: 403,
+      body: 'Acceso bloqueado',
+    };
+  }
+
+  let data;
+  try {
+    data = JSON.parse(event.body);
+  } catch {
+    return {
+      statusCode: 400,
+      body: 'JSON inválido',
+    };
+  }
+
+  // Detectar ataques
+  if (isAttack(data)) {
+    blockedIPs.add(ip);
+    return {
+      statusCode: 403,
+      body: 'Acceso bloqueado por actividad sospechosa',
+    };
+  }
+
+  // Preparar mensaje para webhook Discord
+  const content = `
+**Nueva postulación**
+Usuario Discord: ${data.usuarioDiscord}
+ID Discord: ${data.idDiscord || 'No proporcionado'}
+País: ${data.pais}
+Edad: ${data.edad}
+Veces admin: ${data.vecesAdmin}
+Qué aporta: ${data.aporta}
+Qué hacks tiene: ${data.hacks || 'No proporcionado'}
+Experiencia: ${data.experiencia}
+Horas disponibles: ${data.horas}
+IP: ${ip}
+`;
+
+  try {
+    await fetch(WEBHOOK_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ content }),
+    });
+
+    return {
+      statusCode: 200,
+      body: 'Formulario enviado correctamente',
+    };
+  } catch (error) {
+    return {
+      statusCode: 500,
+      body: 'Error enviando webhook',
+    };
+  }
+};
